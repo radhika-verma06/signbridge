@@ -19,6 +19,9 @@ import { preload } from './services/auslanLexiconProvider';
 import { useGuidedDemo } from './hooks/useGuidedDemo';
 import type { InterpretResult } from './services/learningAIProvider';
 import type { ChatMessage, ConceptId } from './types';
+import type { Lesson } from './components/SideBySideLesson';
+
+interface SideBySideManifest { lessons: Lesson[]; }
 
 const TRANSCRIPT_LINES = allLines();
 const PRELOAD_CONCEPTS: ConceptId[] = [
@@ -33,6 +36,17 @@ function nextId(prefix: string) {
 export default function App() {
   // --- lesson mode: 'split' (NASA video + 2D signer) or 'sidebyside' (1-min composite) ---
   const [lessonMode, setLessonMode] = useState<'split' | 'sidebyside'>('split');
+  // --- side-by-side lesson playlist (fetched from public/lessons.json) ---
+  const [lessons, setLessons] = useState<Lesson[]>([]);
+  const [activeSideBySide, setActiveSideBySide] = useState<Lesson | null>(null);
+  useEffect(() => {
+    let cancelled = false;
+    fetch('/lessons.json')
+      .then((r) => r.ok ? r.json() as Promise<SideBySideManifest> : Promise.resolve({ lessons: [] }))
+      .then((m) => { if (!cancelled) { setLessons(m.lessons); if (m.lessons[0]) setActiveSideBySide(m.lessons[0]); } })
+      .catch(() => { /* fall back to hard-coded single video if fetch fails */ });
+    return () => { cancelled = true; };
+  }, []);
 
   // --- lecture playback state (the video element is the master clock) ---
   const [currentTime, setCurrentTime] = useState(0);
@@ -211,7 +225,12 @@ export default function App() {
 
           <div className="grid grid-cols-1 lg:grid-cols-[1.5fr_1fr] gap-6 items-stretch">
             {lessonMode === 'sidebyside' ? (
-              <SideBySideLesson ref={sideBySideRef} src="/videos/inside_you.mp4" />
+              <SideBySideLesson
+                ref={sideBySideRef}
+                src={activeSideBySide?.videoSrc || '/videos/inside_you.mp4'}
+                lessons={lessons}
+                onLessonChange={setActiveSideBySide}
+              />
             ) : (
               <VideoLesson
                 ref={videoRef}

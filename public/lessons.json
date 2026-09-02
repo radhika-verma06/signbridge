@@ -1,0 +1,26 @@
+[
+  {
+    "id": "inside_you",
+    "title": "Inside You: The Human Body",
+    "subtitle": "Anatomy & biology (ASL)",
+    "videoSrc": "/videos/inside_you.mp4",
+    "duration": 60,
+    "tagline": "A real person signs each word in ASL — left panel only"
+  },
+  {
+    "id": "how_you_move",
+    "title": "How You Move",
+    "subtitle": "Everyday actions (ASL)",
+    "videoSrc": "/videos/how_you_move.mp4",
+    "duration": 57,
+    "tagline": "A real person signs each verb in ASL — left panel only"
+  },
+  {
+    "id": "live_signing_demo",
+    "title": "Live signing demo",
+    "subtitle": "NASA video + 3D Eva avatar",
+    "videoSrc": "/videos/live_signing_demo.mp4",
+    "duration": 30,
+    "tagline": "Real NASA Newton video (left) · 3D Eva avatar signing (right) — a real person doing an experiment paired with a 3D avatar signing alongside"
+  }
+]
