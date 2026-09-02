@@ -17,10 +17,18 @@
   },
   {
     "id": "live_signing_demo",
-    "title": "Live signing demo",
+    "title": "Live signing demo (3D Eva)",
     "subtitle": "NASA video + 3D Eva avatar",
     "videoSrc": "/videos/live_signing_demo.mp4",
     "duration": 30,
-    "tagline": "Real NASA Newton video (left) · 3D Eva avatar signing (right) — a real person doing an experiment paired with a 3D avatar signing alongside"
+    "tagline": "Real NASA Newton video (left) · 3D Eva avatar signing (right)"
+  },
+  {
+    "id": "nasa_sign_60s",
+    "title": "Newton's Second Law: real NASA + real ASL",
+    "subtitle": "NASA video + WLASL human signer",
+    "videoSrc": "/videos/nasa_sign_60s.mp4",
+    "duration": 60,
+    "tagline": "Real NASA Newton video (left) · real human ASL signer (right). 17 unique signs cycled: hello, man, person, work, energy, weight, think, know, start, stop, see, go, come, more, can, feel, push, pull, physics, science, chemistry, biology, sun, moon, earth, water, fire, big, small, fast, slow, high, more, less, change, compare, measure, change, plus, push, pull, have, and more"
   }
 ]
