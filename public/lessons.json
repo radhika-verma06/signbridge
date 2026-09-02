@@ -1,42 +1,44 @@
-[
-  {
-    "id": "inside_you",
-    "title": "Inside You: The Human Body",
-    "subtitle": "Anatomy & biology (ASL)",
-    "videoSrc": "/videos/inside_you.mp4",
-    "duration": 60,
-    "tagline": "A real person signs each word in ASL \u2014 left panel only"
-  },
-  {
-    "id": "how_you_move",
-    "title": "How You Move",
-    "subtitle": "Everyday actions (ASL)",
-    "videoSrc": "/videos/how_you_move.mp4",
-    "duration": 57,
-    "tagline": "A real person signs each verb in ASL \u2014 left panel only"
-  },
-  {
-    "id": "live_signing_demo",
-    "title": "Live signing demo (3D Eva)",
-    "subtitle": "NASA video + 3D Eva avatar",
-    "videoSrc": "/videos/live_signing_demo.mp4",
-    "duration": 30,
-    "tagline": "Real NASA Newton video (left) \u00b7 3D Eva avatar signing (right)"
-  },
-  {
-    "id": "nasa_sign_60s",
-    "title": "Newton's Second Law: real NASA + real ASL",
-    "subtitle": "NASA video + WLASL human signer",
-    "videoSrc": "/videos/nasa_sign_60s.mp4",
-    "duration": 60,
-    "tagline": "Real NASA Newton video (left) \u00b7 real human ASL signer (right). 17 unique signs cycled: hello, man, person, work, energy, weight, think, know, start, stop, see, go, come, more, can, feel, push, pull, physics, science, chemistry, biology, sun, moon, earth, water, fire, big, small, fast, slow, high, more, less, change, compare, measure, change, plus, push, pull, have, and more"
-  },
-  {
-    "id": "nasa_eva_60s",
-    "title": "Newton's Second Law: NASA + 3D Eva",
-    "subtitle": "Real NASA + 3D avatar (NGT + fingerspelling)",
-    "videoSrc": "/videos/nasa_eva_60s.mp4",
-    "duration": 23,
-    "tagline": "Real NASA video (left) \u00b7 3D Eva avatar (right) signing every word the astronaut says. 72 signs total: 45 real NGT signs (HALLO, IEDEREEN, RUIMTE, STATION, LEVEN, DENKEN, WETENSCHAP, KOMEN, GAAN, BEWEGING, VOORWERP, AANTREKKEN, ZWAAR, BEGINNEN, GEBRUIKEN, VEER, KOORD, GEVEN, STOK, DUWEN, ZIE) + 27 fingerspelled letters for names and STEM terms."
-  }
-]
+{
+  "lessons": [
+    {
+      "id": "inside_you",
+      "title": "Inside You: The Human Body",
+      "subtitle": "Anatomy & biology (ASL)",
+      "videoSrc": "/videos/inside_you.mp4",
+      "duration": 60,
+      "tagline": "A real person signs each word in ASL \u2014 left panel only"
+    },
+    {
+      "id": "how_you_move",
+      "title": "How You Move",
+      "subtitle": "Everyday actions (ASL)",
+      "videoSrc": "/videos/how_you_move.mp4",
+      "duration": 57,
+      "tagline": "A real person signs each verb in ASL \u2014 left panel only"
+    },
+    {
+      "id": "live_signing_demo",
+      "title": "Live signing demo (3D Eva)",
+      "subtitle": "NASA video + 3D Eva avatar",
+      "videoSrc": "/videos/live_signing_demo.mp4",
+      "duration": 30,
+      "tagline": "Real NASA Newton video (left) \u00b7 3D Eva avatar signing (right)"
+    },
+    {
+      "id": "nasa_sign_60s",
+      "title": "Newton's Second Law: real NASA + real ASL",
+      "subtitle": "NASA video + WLASL human signer",
+      "videoSrc": "/videos/nasa_sign_60s.mp4",
+      "duration": 60,
+      "tagline": "Real NASA Newton video (left) \u00b7 real human ASL signer (right) cycling 17 signs (hello, man, person, work, energy, weight, think, know, start, stop, see, go, come, more, can, feel, push, pull, physics, science, etc.)"
+    },
+    {
+      "id": "nasa_eva_60s",
+      "title": "Newton's Second Law: NASA + 3D Eva",
+      "subtitle": "Real NASA + 3D Eva (NGT + fingerspelling)",
+      "videoSrc": "/videos/nasa_eva_60s.mp4",
+      "duration": 44,
+      "tagline": "Real NASA astronaut (left) \u00b7 3D Eva avatar (right) signing 34 unique NGT signs (HALLO, IEDEREEN, RUIMTE, STATION, LEVEN, DENKEN, WETENSCHAP, KOMEN, GAAN, BEWEGING, VOORWERP, AANTREKKEN, ZWAAR, GOED, TONEN, ZIE, DRUKKEN, AUTO, KLEIN, THUIS, STOK, GEBRUIKEN, VEER, KOORD, GEVEN, DUWEN) + 10 fingerspelled letters (I-SP, R-SP, L-SP, F-SP, N-SP, M-SP, S-SP, O-SP, W-SP, A-SP) at 1.5s per sign for clear visibility."
+    }
+  ]
+}
