@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Header } from './components/Header';
 import { VideoLesson, type VideoLessonHandle } from './components/VideoLesson';
+import { SideBySideLesson, type SideBySideLessonHandle } from './components/SideBySideLesson';
 import { TranscriptPanel } from './components/TranscriptPanel';
 import { SignedLearningPanel } from './components/SignedLearningPanel';
 import { LearningToolbar } from './components/LearningToolbar';
@@ -30,12 +31,16 @@ function nextId(prefix: string) {
 }
 
 export default function App() {
+  // --- lesson mode: 'split' (NASA video + 2D signer) or 'sidebyside' (1-min composite) ---
+  const [lessonMode, setLessonMode] = useState<'split' | 'sidebyside'>('split');
+
   // --- lecture playback state (the video element is the master clock) ---
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [playbackRate, setPlaybackRate] = useState(1);
   const videoRef = useRef<VideoLessonHandle>(null);
+  const sideBySideRef = useRef<SideBySideLessonHandle>(null);
 
   // --- accessibility / layer toggles ---
   const [captionsOn, setCaptionsOn] = useState(true);
@@ -177,28 +182,61 @@ export default function App() {
 
       <main id="main-content" className="flex-1">
         <div className="max-w-6xl mx-auto px-5 sm:px-8 py-8 space-y-8">
-          <div className="grid grid-cols-1 lg:grid-cols-[1.5fr_1fr] gap-6 items-stretch">
-            <VideoLesson
-              ref={videoRef}
-              src="/videos/newtons-second-law.webm"
-              captionsOn={captionsOn}
-              currentLine={lessonContext.currentLine}
-              currentTime={currentTime}
-              duration={duration}
-              playing={isPlaying}
-              playbackRate={playbackRate}
-              onTimeUpdate={setCurrentTime}
-              onDurationChange={setDuration}
-              onPlayingChange={setIsPlaying}
-              onSetPlaybackRate={setPlaybackRate}
-            />
+          {/* Lesson mode switcher — small toggle above the lesson grid */}
+          <div className="flex items-center justify-end gap-2">
+            <span className="text-xs uppercase tracking-wider text-ink-faint mr-2">Lesson view</span>
+            <button
+              type="button"
+              onClick={() => setLessonMode('split')}
+              className={`px-3 py-1.5 rounded-md text-xs font-semibold transition-colors ${
+                lessonMode === 'split'
+                  ? 'bg-navy-900 text-paper'
+                  : 'bg-paper text-ink-soft border border-line hover:border-navy-700'
+              }`}
+            >
+              NASA + Auslan signer
+            </button>
+            <button
+              type="button"
+              onClick={() => setLessonMode('sidebyside')}
+              className={`px-3 py-1.5 rounded-md text-xs font-semibold transition-colors ${
+                lessonMode === 'sidebyside'
+                  ? 'bg-navy-900 text-paper'
+                  : 'bg-paper text-ink-soft border border-line hover:border-navy-700'
+              }`}
+            >
+              Side-by-side real ASL
+            </button>
+          </div>
 
-            <SignedLearningPanel
-              enabled={signOn}
-              activeConcept={activeConcept}
-              requestToken={signRequestToken}
-              showTechnical={showTechnical}
-            />
+          <div className="grid grid-cols-1 lg:grid-cols-[1.5fr_1fr] gap-6 items-stretch">
+            {lessonMode === 'sidebyside' ? (
+              <SideBySideLesson ref={sideBySideRef} src="/videos/inside_you.mp4" />
+            ) : (
+              <VideoLesson
+                ref={videoRef}
+                src="/videos/newtons-second-law.webm"
+                captionsOn={captionsOn}
+                currentLine={lessonContext.currentLine}
+                currentTime={currentTime}
+                duration={duration}
+                playing={isPlaying}
+                playbackRate={playbackRate}
+                onTimeUpdate={setCurrentTime}
+                onDurationChange={setDuration}
+                onPlayingChange={setIsPlaying}
+                onSetPlaybackRate={setPlaybackRate}
+              />
+            )}
+
+            {lessonMode === 'split' && (
+              <SignedLearningPanel
+                enabled={signOn}
+                activeConcept={activeConcept}
+                requestToken={signRequestToken}
+                showTechnical={showTechnical}
+              />
+            )}
           </div>
 
           <LearningToolbar
