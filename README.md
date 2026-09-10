@@ -2,6 +2,8 @@
 
 > "Learning shouldn't depend on how you hear."
 
+**Live demo:** https://radhika-verma06.github.io/signbridge/
+
 SignBridge is an early-stage accessibility/education concept for Deaf and
 Auslan-first learners. It is **not** a claim to have solved English-to-Auslan
 translation, and it is **not** a replacement for human Auslan interpreters.
