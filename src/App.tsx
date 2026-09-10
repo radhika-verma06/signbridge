@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Header } from './components/Header';
 import { VideoLesson, type VideoLessonHandle } from './components/VideoLesson';
-import { SideBySideLesson, type SideBySideLessonHandle } from './components/SideBySideLesson';
 import { TranscriptPanel } from './components/TranscriptPanel';
 import { EvaSignerPanel } from './components/EvaSignerPanel';
 import { LearningToolbar } from './components/LearningToolbar';
@@ -18,10 +17,7 @@ import { learningAI } from './services/learningAIProvider';
 import { preload } from './services/auslanLexiconProvider';
 import { useGuidedDemo } from './hooks/useGuidedDemo';
 import type { InterpretResult } from './services/learningAIProvider';
-import type { ChatMessage, ConceptId, TranscriptLine } from './types';
-import type { Lesson } from './components/SideBySideLesson';
-
-interface SideBySideManifest { lessons: Lesson[]; }
+import type { ChatMessage, ConceptId } from './types';
 
 const TRANSCRIPT_LINES = allLines();
 const PRELOAD_CONCEPTS: ConceptId[] = [
@@ -33,41 +29,13 @@ function nextId(prefix: string) {
   return `${prefix}-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
 }
 
-/**
- * Sentinel transcript line for the side-by-side lessons: while their video
- * plays, Eva signs continuously (same behaviour as the main lecture mode),
- * even though those lessons have no concept transcript.
- */
-const SIDE_BY_SIDE_SIGNING_LINE: TranscriptLine = {
-  id: 'side-by-side-signing',
-  start: 0,
-  end: 0,
-  text: '',
-};
-
 export default function App() {
-  // --- lesson mode: 'split' (NASA video + 2D signer) or 'sidebyside' (1-min composite) ---
-  const [lessonMode, setLessonMode] = useState<'split' | 'sidebyside'>('split');
-  // --- side-by-side lesson playlist (fetched from public/lessons.json) ---
-  const [lessons, setLessons] = useState<Lesson[]>([]);
-  const [activeSideBySide, setActiveSideBySide] = useState<Lesson | null>(null);
-  useEffect(() => {
-    let cancelled = false;
-    fetch('lessons.json')
-      .then((r) => r.ok ? r.json() as Promise<SideBySideManifest> : Promise.resolve({ lessons: [] }))
-      .then((m) => { if (!cancelled) { setLessons(m.lessons); if (m.lessons[0]) setActiveSideBySide(m.lessons[0]); } })
-      .catch(() => { /* fall back to hard-coded single video if fetch fails */ });
-    return () => { cancelled = true; };
-  }, []);
-
   // --- lecture playback state (the video element is the master clock) ---
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [playbackRate, setPlaybackRate] = useState(1);
-  const [sideBySidePlaying, setSideBySidePlaying] = useState(false);
   const videoRef = useRef<VideoLessonHandle>(null);
-  const sideBySideRef = useRef<SideBySideLessonHandle>(null);
 
   // --- accessibility / layer toggles ---
   const [captionsOn, setCaptionsOn] = useState(true);
@@ -237,70 +205,29 @@ export default function App() {
             <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-teal-700">
               Step 1 · Watch &amp; sign
             </p>
-            <div className="flex items-center justify-end gap-2">
-            <span className="text-xs uppercase tracking-wider text-ink-faint mr-2">Lesson view</span>
-            <button
-              type="button"
-              onClick={() => setLessonMode('split')}
-              className={`px-3 py-1.5 rounded-md text-xs font-semibold transition-colors ${
-                lessonMode === 'split'
-                  ? 'bg-navy-900 text-paper'
-                  : 'bg-paper text-ink-soft border border-line hover:border-navy-700'
-              }`}
-            >
-              NASA + Auslan signer
-            </button>
-            <button
-              type="button"
-              onClick={() => setLessonMode('sidebyside')}
-              className={`px-3 py-1.5 rounded-md text-xs font-semibold transition-colors ${
-                lessonMode === 'sidebyside'
-                  ? 'bg-navy-900 text-paper'
-                  : 'bg-paper text-ink-soft border border-line hover:border-navy-700'
-              }`}
-            >
-              Side-by-side real ASL
-            </button>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-[1.5fr_1fr] gap-6 items-stretch">
-            {lessonMode === 'sidebyside' ? (
-              <SideBySideLesson
-                ref={sideBySideRef}
-                src={activeSideBySide?.videoSrc || 'videos/inside_you.mp4'}
-                lessons={lessons}
-                onLessonChange={setActiveSideBySide}
-                onPlayingChange={setSideBySidePlaying}
-              />
-            ) : (
-              <VideoLesson
-                ref={videoRef}
-                src="videos/newtons-second-law.webm"
-                captionsOn={captionsOn}
-                currentLine={lessonContext.currentLine}
-                currentTime={currentTime}
-                duration={duration}
-                playing={isPlaying}
-                playbackRate={playbackRate}
-                onTimeUpdate={setCurrentTime}
-                onDurationChange={setDuration}
-                onPlayingChange={setIsPlaying}
-                onSetPlaybackRate={setPlaybackRate}
-              />
-            )}
+            <VideoLesson
+              ref={videoRef}
+              src="videos/newtons-second-law.webm"
+              captionsOn={captionsOn}
+              currentLine={lessonContext.currentLine}
+              currentTime={currentTime}
+              duration={duration}
+              playing={isPlaying}
+              playbackRate={playbackRate}
+              onTimeUpdate={setCurrentTime}
+              onDurationChange={setDuration}
+              onPlayingChange={setIsPlaying}
+              onSetPlaybackRate={setPlaybackRate}
+            />
 
             <EvaSignerPanel
               enabled={signOn}
-              currentLine={
-                lessonMode === 'split'
-                  ? lessonContext.currentLine
-                  : sideBySidePlaying
-                    ? SIDE_BY_SIDE_SIGNING_LINE
-                    : null
-              }
-              playing={lessonMode === 'split' ? isPlaying : sideBySidePlaying}
+              currentLine={lessonContext.currentLine}
+              playing={isPlaying}
             />
-            </div>
           </div>
 
           <LearningToolbar
