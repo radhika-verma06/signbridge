@@ -172,6 +172,14 @@ export default function App() {
 
   const { demoRunning, demoStepLabel, startDemo, stopDemo } = useGuidedDemo(demoActions);
 
+  // "Step 3 of 9 — Pausing at a key concept…" → badge + description + progress
+  // fill. The closing label ("Demo complete — …") has no step number and reads
+  // as the full description at 100%.
+  const demoStepMatch = demoStepLabel?.match(/^Step (\d+) of (\d+) — (.*)$/s);
+  const demoStepProgressPct = demoStepMatch
+    ? (Number(demoStepMatch[1]) / Number(demoStepMatch[2])) * 100
+    : 100;
+
   return (
     <div className="min-h-screen flex flex-col bg-paper">
       <a href="#main-content" className="skip-link">
@@ -186,8 +194,28 @@ export default function App() {
       />
 
       {demoRunning && demoStepLabel && (
-        <div className="bg-gold-500 text-navy-900 text-sm font-medium text-center py-2 px-4" role="status">
-          {demoStepLabel}
+        <div id="guided-demo-banner" className="sticky top-0 z-40 bg-gold-500 text-navy-900 shadow-lg shadow-navy-900/15" role="status">
+          <div className="max-w-6xl mx-auto px-5 sm:px-8 py-2 flex items-center gap-3">
+            <span className="flex-none rounded-full bg-navy-900 px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide text-gold-400">
+              {demoStepMatch ? `Step ${demoStepMatch[1]} of ${demoStepMatch[2]}` : 'Done'}
+            </span>
+            <p className="min-w-0 flex-1 truncate text-sm font-medium">
+              {demoStepMatch ? demoStepMatch[3] : demoStepLabel}
+            </p>
+            <button
+              type="button"
+              onClick={stopDemo}
+              className="flex-none rounded-md border border-navy-900/30 px-2.5 py-1 text-xs font-semibold transition-colors hover:bg-navy-900 hover:text-gold-400"
+            >
+              Stop
+            </button>
+          </div>
+          <div className="h-1 bg-navy-900/15">
+            <div
+              className="h-full bg-navy-900/80 transition-all duration-700"
+              style={{ width: `${demoStepProgressPct}%` }}
+            />
+          </div>
         </div>
       )}
 
