@@ -21,7 +21,8 @@ export const NewtonVisualiser = forwardRef<HTMLDivElement, NewtonVisualiserProps
       aria-labelledby="visualise-heading"
       className="rounded-xl border border-line bg-white shadow-card p-5 sm:p-6"
     >
-      <h2 id="visualise-heading" className="font-display text-xl font-semibold text-navy-900">
+      <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-teal-700">Step 4 · Try it yourself</p>
+      <h2 id="visualise-heading" className="mt-1 font-display text-xl font-semibold text-navy-900">
         Visualise it yourself
       </h2>
       <p className="mt-1 text-sm text-ink-faint max-w-2xl">

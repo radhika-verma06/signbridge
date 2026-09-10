@@ -56,7 +56,10 @@ export function SignedLearningPanel({ enabled, activeConcept, requestToken, show
   return (
     <div className="rounded-xl border border-line bg-white shadow-card overflow-hidden flex flex-col h-full">
       <div className="flex items-center justify-between border-b border-line px-4 py-3">
-        <h2 className="font-display text-lg font-semibold text-ink">Signed Learning</h2>
+        <div>
+          <h2 className="font-display text-lg font-semibold text-ink leading-tight">Signed Learning</h2>
+          <p className="text-xs text-ink-faint mt-0.5">Real Auslan · lesson vocabulary</p>
+        </div>
         {!enabled && <span className="text-xs font-medium text-ink-faint">Off</span>}
       </div>
 
@@ -77,9 +80,15 @@ export function SignedLearningPanel({ enabled, activeConcept, requestToken, show
             Signed support isn’t available for this concept yet.
           </p>
         ) : enabled ? (
-          <p className="text-sm text-paper/50 px-6 text-center max-w-[16rem]">
-            Waiting for a supported concept to appear.
-          </p>
+          <div className="px-6 text-center max-w-[15rem]">
+            <p className="text-sm font-semibold text-paper/80">Waiting for the lesson…</p>
+            <p className="mt-1.5 text-xs leading-relaxed text-paper/50">
+              Press play — when the lecturer says <span className="font-semibold text-gold-400">force</span>,{' '}
+              <span className="font-semibold text-gold-400">mass</span> or{' '}
+              <span className="font-semibold text-gold-400">acceleration</span>, the real Auslan sign
+              plays here.
+            </p>
+          </div>
         ) : (
           <p className="text-sm text-paper/50 px-6 text-center max-w-[16rem]">
             The signed learning layer is turned off.

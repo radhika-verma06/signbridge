@@ -19,7 +19,7 @@
       "clipId": "rgb/85909_kf_rgb.mp4 (Train split, Kinect-front camera, dictionary id 2025)",
       "licence": "CC BY-NC-SA 4.0",
       "usageConstraint": "Non-commercial use with attribution; redistributed derivatives must carry the same licence.",
-      "poseFile": "/signs/auslan/acceleration.json",
+      "poseFile": "signs/auslan/acceleration.json",
       "extractionMethod": "MediaPipe Holistic 0.10.21 (body + face + both hands) via pose_format.utils.holistic.load_holistic",
       "linguisticCaveat": "This is the general/everyday sense of 'accelerator/accelerate' (e.g. a car's accelerator). It has not been confirmed by a fluent Auslan signer as the register a Deaf physics educator would use for the physics quantity 'acceleration'.",
       "validationStatus": "AUSLAN-DERIVED - NOT YET HUMAN VALIDATED"
@@ -38,7 +38,7 @@
       "clipId": "rgb/70137_kf_rgb.mp4 (Train split, Kinect-front camera, dictionary id 874)",
       "licence": "CC BY-NC-SA 4.0",
       "usageConstraint": "Non-commercial use with attribution; redistributed derivatives must carry the same licence.",
-      "poseFile": "/signs/auslan/equation.json",
+      "poseFile": "signs/auslan/equation.json",
       "extractionMethod": "MediaPipe Holistic 0.10.21 (body + face + both hands) via pose_format.utils.holistic.load_holistic",
       "linguisticCaveat": null,
       "validationStatus": "AUSLAN-DERIVED - NOT YET HUMAN VALIDATED"
@@ -57,7 +57,7 @@
       "clipId": "rgb/81526_kf_rgb.mp4 (Train split, Kinect-front camera, dictionary id 1795)",
       "licence": "CC BY-NC-SA 4.0",
       "usageConstraint": "Non-commercial use with attribution; redistributed derivatives must carry the same licence.",
-      "poseFile": "/signs/auslan/push.json",
+      "poseFile": "signs/auslan/push.json",
       "extractionMethod": "MediaPipe Holistic 0.10.21 (body + face + both hands) via pose_format.utils.holistic.load_holistic",
       "linguisticCaveat": null,
       "validationStatus": "AUSLAN-DERIVED - NOT YET HUMAN VALIDATED"
@@ -76,7 +76,7 @@
       "clipId": "rgb/08857_kf_rgb.mp4 (Train split, Kinect-front camera, dictionary id 1844)",
       "licence": "CC BY-NC-SA 4.0",
       "usageConstraint": "Non-commercial use with attribution; redistributed derivatives must carry the same licence.",
-      "poseFile": "/signs/auslan/move.json",
+      "poseFile": "signs/auslan/move.json",
       "extractionMethod": "MediaPipe Holistic 0.10.21 (body + face + both hands) via pose_format.utils.holistic.load_holistic",
       "linguisticCaveat": null,
       "validationStatus": "AUSLAN-DERIVED - NOT YET HUMAN VALIDATED"
@@ -99,7 +99,7 @@
       "clipId": "rgb/74766_kf_rgb.mp4 (Train split, Kinect-front camera, dictionary id 2095)",
       "licence": "CC BY-NC-SA 4.0",
       "usageConstraint": "Non-commercial use with attribution; redistributed derivatives must carry the same licence.",
-      "poseFile": "/signs/auslan/increase.json",
+      "poseFile": "signs/auslan/increase.json",
       "extractionMethod": "MediaPipe Holistic 0.10.21 (body + face + both hands) via pose_format.utils.holistic.load_holistic",
       "linguisticCaveat": null,
       "validationStatus": "AUSLAN-DERIVED - NOT YET HUMAN VALIDATED"
@@ -122,7 +122,7 @@
       "clipId": "rgb/23192_kf_rgb.mp4 (Train split, Kinect-front camera, dictionary id 1838)",
       "licence": "CC BY-NC-SA 4.0",
       "usageConstraint": "Non-commercial use with attribution; redistributed derivatives must carry the same licence.",
-      "poseFile": "/signs/auslan/decrease.json",
+      "poseFile": "signs/auslan/decrease.json",
       "extractionMethod": "MediaPipe Holistic 0.10.21 (body + face + both hands) via pose_format.utils.holistic.load_holistic",
       "linguisticCaveat": "This sign's core meaning is 'small'; 'decrease' is a listed secondary keyword, not its primary sense.",
       "validationStatus": "AUSLAN-DERIVED - NOT YET HUMAN VALIDATED"
@@ -141,7 +141,7 @@
       "clipId": "rgb/31233_kf_rgb.mp4 (Train split, Kinect-front camera, dictionary id 2067)",
       "licence": "CC BY-NC-SA 4.0",
       "usageConstraint": "Non-commercial use with attribution; redistributed derivatives must carry the same licence.",
-      "poseFile": "/signs/auslan/more.json",
+      "poseFile": "signs/auslan/more.json",
       "extractionMethod": "MediaPipe Holistic 0.10.21 (body + face + both hands) via pose_format.utils.holistic.load_holistic",
       "linguisticCaveat": null,
       "validationStatus": "AUSLAN-DERIVED - NOT YET HUMAN VALIDATED"
@@ -160,7 +160,7 @@
       "clipId": "rgb/64520_kf_rgb.mp4 (Train split, Kinect-front camera, dictionary id 3190)",
       "licence": "CC BY-NC-SA 4.0",
       "usageConstraint": "Non-commercial use with attribution; redistributed derivatives must carry the same licence.",
-      "poseFile": "/signs/auslan/same.json",
+      "poseFile": "signs/auslan/same.json",
       "extractionMethod": "MediaPipe Holistic 0.10.21 (body + face + both hands) via pose_format.utils.holistic.load_holistic",
       "linguisticCaveat": null,
       "validationStatus": "AUSLAN-DERIVED - NOT YET HUMAN VALIDATED"
@@ -182,7 +182,7 @@
       "clipId": "rgb/86114_kf_rgb.mp4 (Train split, Kinect-front camera, dictionary id 509)",
       "licence": "CC BY-NC-SA 4.0",
       "usageConstraint": "Non-commercial use with attribution; redistributed derivatives must carry the same licence.",
-      "poseFile": "/signs/auslan/fast.json",
+      "poseFile": "signs/auslan/fast.json",
       "extractionMethod": "MediaPipe Holistic 0.10.21 (body + face + both hands) via pose_format.utils.holistic.load_holistic",
       "linguisticCaveat": null,
       "validationStatus": "AUSLAN-DERIVED - NOT YET HUMAN VALIDATED"
@@ -202,7 +202,7 @@
       "clipId": "rgb/11959_kf_rgb.mp4 (Train split, Kinect-front camera, dictionary id 1985)",
       "licence": "CC BY-NC-SA 4.0",
       "usageConstraint": "Non-commercial use with attribution; redistributed derivatives must carry the same licence.",
-      "poseFile": "/signs/auslan/slow.json",
+      "poseFile": "signs/auslan/slow.json",
       "extractionMethod": "MediaPipe Holistic 0.10.21 (body + face + both hands) via pose_format.utils.holistic.load_holistic",
       "linguisticCaveat": null,
       "validationStatus": "AUSLAN-DERIVED - NOT YET HUMAN VALIDATED"
@@ -223,7 +223,7 @@
       "clipId": "rgb/63351_kf_rgb.mp4 (Train split, Kinect-front camera, dictionary id 2026)",
       "licence": "CC BY-NC-SA 4.0",
       "usageConstraint": "Non-commercial use with attribution; redistributed derivatives must carry the same licence.",
-      "poseFile": "/signs/auslan/decelerate.json",
+      "poseFile": "signs/auslan/decelerate.json",
       "extractionMethod": "MediaPipe Holistic 0.10.21 (body + face + both hands) via pose_format.utils.holistic.load_holistic",
       "linguisticCaveat": null,
       "validationStatus": "AUSLAN-DERIVED - NOT YET HUMAN VALIDATED"
@@ -242,7 +242,7 @@
       "clipId": "rgb/36828_kf_rgb.mp4 (Train split, Kinect-front camera, dictionary id 437)",
       "licence": "CC BY-NC-SA 4.0",
       "usageConstraint": "Non-commercial use with attribution; redistributed derivatives must carry the same licence.",
-      "poseFile": "/signs/auslan/object.json",
+      "poseFile": "signs/auslan/object.json",
       "extractionMethod": "MediaPipe Holistic 0.10.21 (body + face + both hands) via pose_format.utils.holistic.load_holistic",
       "linguisticCaveat": null,
       "validationStatus": "AUSLAN-DERIVED - NOT YET HUMAN VALIDATED"

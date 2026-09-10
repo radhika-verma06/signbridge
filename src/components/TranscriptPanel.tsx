@@ -18,7 +18,8 @@ export function TranscriptPanel({ lines, currentLineId, onSeek }: TranscriptPane
 
   return (
     <section aria-labelledby="transcript-heading" className="rounded-xl border border-line bg-white shadow-card p-5 sm:p-6">
-      <h2 id="transcript-heading" className="font-display text-lg font-semibold text-navy-900">
+      <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-teal-700">Step 2 · Read along</p>
+      <h2 id="transcript-heading" className="mt-1 font-display text-lg font-semibold text-navy-900">
         Transcript
       </h2>
       <p className="mt-1 text-sm text-ink-faint">
@@ -34,8 +35,10 @@ export function TranscriptPanel({ lines, currentLineId, onSeek }: TranscriptPane
               type="button"
               onClick={() => onSeek(line.start)}
               aria-current={active ? 'true' : undefined}
-              className={`w-full text-left rounded-md px-3 py-2 text-sm leading-snug transition-colors ${
-                active ? 'bg-navy-900 text-paper' : 'bg-paper text-ink-soft hover:bg-paper-dim'
+              className={`w-full text-left rounded-md border-l-[3px] px-3 py-2 text-sm leading-snug transition-colors ${
+                active
+                  ? 'bg-navy-900 text-paper border-gold-400'
+                  : 'bg-paper text-ink-soft border-transparent hover:bg-paper-dim hover:text-ink'
               }`}
             >
               <span className={`font-mono text-xs mr-2 ${active ? 'text-gold-400' : 'text-ink-faint'}`}>

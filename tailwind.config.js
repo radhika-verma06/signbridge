@@ -28,6 +28,17 @@ export default {
         },
         line: '#E1DED4',
         success: '#2F7A4F',
+        teal: {
+          100: '#D7ECE6',
+          500: '#0E7C6B',
+          600: '#0A5F52',
+          700: '#084A40',
+        },
+        coral: {
+          100: '#FBE3DA',
+          500: '#E4572E',
+          600: '#C4491F',
+        },
       },
       fontFamily: {
         display: ['"Fraunces"', 'ui-serif', 'Georgia', 'serif'],

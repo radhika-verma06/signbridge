@@ -10,7 +10,7 @@ const poseCache = new Map<ConceptId, Promise<PoseFrameSet>>();
  */
 export function loadLexicon(): Promise<AuslanLexicon> {
   if (!lexiconPromise) {
-    lexiconPromise = fetch('/signs/auslan/lexicon.json').then((r) => {
+    lexiconPromise = fetch('signs/auslan/lexicon.json').then((r) => {
       if (!r.ok) throw new Error(`Failed to load Auslan lexicon: ${r.status}`);
       return r.json();
     });

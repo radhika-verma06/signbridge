@@ -1,14 +1,13 @@
 import { useRef, useState, type FormEvent } from 'react';
-import { QUICK_QUESTIONS, conceptLabel } from '../data/concepts';
-import type { ChatMessage, ConceptId } from '../types';
+import { QUICK_QUESTIONS } from '../data/concepts';
+import type { ChatMessage } from '../types';
 
 interface AskPanelProps {
   messages: ChatMessage[];
   onAsk: (question: string) => void;
-  onShowSigned: (concept: ConceptId) => void;
 }
 
-export function AskPanel({ messages, onAsk, onShowSigned }: AskPanelProps) {
+export function AskPanel({ messages, onAsk }: AskPanelProps) {
   const [draft, setDraft] = useState('');
   const logRef = useRef<HTMLDivElement>(null);
 
@@ -32,7 +31,8 @@ export function AskPanel({ messages, onAsk, onShowSigned }: AskPanelProps) {
       aria-labelledby="ask-signbridge-heading"
       className="rounded-xl border border-line bg-white shadow-card p-5 sm:p-6"
     >
-      <h2 id="ask-signbridge-heading" className="font-display text-xl font-semibold text-navy-900">
+      <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-teal-700">Step 3 · Ask</p>
+      <h2 id="ask-signbridge-heading" className="mt-1 font-display text-xl font-semibold text-navy-900">
         Still confused? Ask SignBridge.
       </h2>
       <p className="mt-1 text-sm text-ink-faint">
@@ -59,9 +59,12 @@ export function AskPanel({ messages, onAsk, onShowSigned }: AskPanelProps) {
         aria-label="Conversation with SignBridge"
       >
         {messages.length === 0 ? (
-          <p className="text-sm text-ink-faint">
-            Ask a question about this lesson, or choose one of the suggestions above.
-          </p>
+          <div className="flex h-28 flex-col items-center justify-center gap-1.5 rounded-lg border border-dashed border-line text-center">
+            <p className="text-sm font-semibold text-ink-soft">No questions yet</p>
+            <p className="max-w-xs text-xs leading-relaxed text-ink-faint">
+              Pick a suggestion above, or type your own below — answers come with a “Sign” button when a concept can be signed.
+            </p>
+          </div>
         ) : (
           messages.map((m) => (
             <div key={m.id} className={`flex ${m.role === 'learner' ? 'justify-end' : 'justify-start'}`}>
@@ -77,20 +80,6 @@ export function AskPanel({ messages, onAsk, onShowSigned }: AskPanelProps) {
                   </p>
                 )}
                 <p>{m.text}</p>
-                {m.role === 'signbridge' && m.concepts && m.concepts.length > 0 && (
-                  <div className="mt-2 flex flex-wrap gap-1.5">
-                    {m.concepts.map((c) => (
-                      <button
-                        key={c}
-                        type="button"
-                        onClick={() => onShowSigned(c)}
-                        className="rounded-full border border-gold-600 bg-gold-500/10 px-2.5 py-1 text-xs font-medium text-gold-700 hover:bg-gold-500/20"
-                      >
-                        Sign: {conceptLabel(c)}
-                      </button>
-                    ))}
-                  </div>
-                )}
               </div>
             </div>
           ))

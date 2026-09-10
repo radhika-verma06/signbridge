@@ -3,7 +3,7 @@ import { Header } from './components/Header';
 import { VideoLesson, type VideoLessonHandle } from './components/VideoLesson';
 import { SideBySideLesson, type SideBySideLessonHandle } from './components/SideBySideLesson';
 import { TranscriptPanel } from './components/TranscriptPanel';
-import { SignedLearningPanel } from './components/SignedLearningPanel';
+import { EvaSignerPanel } from './components/EvaSignerPanel';
 import { LearningToolbar } from './components/LearningToolbar';
 import { InterpretPanel } from './components/InterpretPanel';
 import { ExplainPanel } from './components/ExplainPanel';
@@ -18,7 +18,7 @@ import { learningAI } from './services/learningAIProvider';
 import { preload } from './services/auslanLexiconProvider';
 import { useGuidedDemo } from './hooks/useGuidedDemo';
 import type { InterpretResult } from './services/learningAIProvider';
-import type { ChatMessage, ConceptId } from './types';
+import type { ChatMessage, ConceptId, TranscriptLine } from './types';
 import type { Lesson } from './components/SideBySideLesson';
 
 interface SideBySideManifest { lessons: Lesson[]; }
@@ -33,6 +33,18 @@ function nextId(prefix: string) {
   return `${prefix}-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
 }
 
+/**
+ * Sentinel transcript line for the side-by-side lessons: while their video
+ * plays, Eva signs continuously (same behaviour as the main lecture mode),
+ * even though those lessons have no concept transcript.
+ */
+const SIDE_BY_SIDE_SIGNING_LINE: TranscriptLine = {
+  id: 'side-by-side-signing',
+  start: 0,
+  end: 0,
+  text: '',
+};
+
 export default function App() {
   // --- lesson mode: 'split' (NASA video + 2D signer) or 'sidebyside' (1-min composite) ---
   const [lessonMode, setLessonMode] = useState<'split' | 'sidebyside'>('split');
@@ -41,7 +53,7 @@ export default function App() {
   const [activeSideBySide, setActiveSideBySide] = useState<Lesson | null>(null);
   useEffect(() => {
     let cancelled = false;
-    fetch('/lessons.json')
+    fetch('lessons.json')
       .then((r) => r.ok ? r.json() as Promise<SideBySideManifest> : Promise.resolve({ lessons: [] }))
       .then((m) => { if (!cancelled) { setLessons(m.lessons); if (m.lessons[0]) setActiveSideBySide(m.lessons[0]); } })
       .catch(() => { /* fall back to hard-coded single video if fetch fails */ });
@@ -53,6 +65,7 @@ export default function App() {
   const [duration, setDuration] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [playbackRate, setPlaybackRate] = useState(1);
+  const [sideBySidePlaying, setSideBySidePlaying] = useState(false);
   const videoRef = useRef<VideoLessonHandle>(null);
   const sideBySideRef = useRef<SideBySideLessonHandle>(null);
 
@@ -61,8 +74,8 @@ export default function App() {
   const [signOn, setSignOn] = useState(true);
 
   // --- signed learning ---
-  const [activeConcept, setActiveConcept] = useState<ConceptId | null>(null);
-  const [signRequestToken, setSignRequestToken] = useState(0);
+  const [, setActiveConcept] = useState<ConceptId | null>(null);
+  const [, setSignRequestToken] = useState(0);
   const [showTechnical, setShowTechnical] = useState(false);
   const resolverRef = useRef(new SignConceptResolver());
 
@@ -94,6 +107,14 @@ export default function App() {
     resolverRef.current.forceShow(concept, currentTime);
     setActiveConcept(concept);
     setSignRequestToken((t) => t + 1);
+    // Also dispatch to Eva iframe so manual concept clicks drive the 3D avatar.
+    const evaFrame = document.querySelector<HTMLIFrameElement>('iframe[title*="Eva"]');
+    if (evaFrame?.contentWindow) {
+      evaFrame.contentWindow.postMessage(
+        { type: 'SIGNBRIDGE_BULK', glosses: [String(concept).toUpperCase()] },
+        'http://127.0.0.1:5070',
+      );
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentTime]);
 
@@ -104,6 +125,14 @@ export default function App() {
     if (picked) {
       setActiveConcept(picked);
       setSignRequestToken((t) => t + 1);
+      // Dispatch to Eva iframe so concept-driven signing also reaches the 3D avatar
+      const evaFrame = document.querySelector<HTMLIFrameElement>('iframe[title*="Eva"]');
+      if (evaFrame?.contentWindow) {
+        evaFrame.contentWindow.postMessage(
+          { type: 'SIGNBRIDGE_GLOSS', glosses: [String(picked).toUpperCase()] },
+          'http://127.0.0.1:5070',
+        );
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lessonContext.currentConcepts.join(','), signOn]);
@@ -196,8 +225,19 @@ export default function App() {
 
       <main id="main-content" className="flex-1">
         <div className="max-w-6xl mx-auto px-5 sm:px-8 py-8 space-y-8">
+          {/* Orientation — what this page is and how to use it */}
+          <p className="max-w-3xl text-sm leading-relaxed text-ink-soft">
+            A real NASA lesson aboard the ISS, made accessible end to end. Press play —
+            captions and <span className="font-semibold text-ink">Eva signs along live</span>.
+            Then read the transcript, ask questions, and try the physics yourself.
+          </p>
+
           {/* Lesson mode switcher — small toggle above the lesson grid */}
-          <div className="flex items-center justify-end gap-2">
+          <div className="space-y-3">
+            <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-teal-700">
+              Step 1 · Watch &amp; sign
+            </p>
+            <div className="flex items-center justify-end gap-2">
             <span className="text-xs uppercase tracking-wider text-ink-faint mr-2">Lesson view</span>
             <button
               type="button"
@@ -227,14 +267,15 @@ export default function App() {
             {lessonMode === 'sidebyside' ? (
               <SideBySideLesson
                 ref={sideBySideRef}
-                src={activeSideBySide?.videoSrc || '/videos/inside_you.mp4'}
+                src={activeSideBySide?.videoSrc || 'videos/inside_you.mp4'}
                 lessons={lessons}
                 onLessonChange={setActiveSideBySide}
+                onPlayingChange={setSideBySidePlaying}
               />
             ) : (
               <VideoLesson
                 ref={videoRef}
-                src="/videos/newtons-second-law.webm"
+                src="videos/newtons-second-law.webm"
                 captionsOn={captionsOn}
                 currentLine={lessonContext.currentLine}
                 currentTime={currentTime}
@@ -248,14 +289,18 @@ export default function App() {
               />
             )}
 
-            {lessonMode === 'split' && (
-              <SignedLearningPanel
-                enabled={signOn}
-                activeConcept={activeConcept}
-                requestToken={signRequestToken}
-                showTechnical={showTechnical}
-              />
-            )}
+            <EvaSignerPanel
+              enabled={signOn}
+              currentLine={
+                lessonMode === 'split'
+                  ? lessonContext.currentLine
+                  : sideBySidePlaying
+                    ? SIDE_BY_SIDE_SIGNING_LINE
+                    : null
+              }
+              playing={lessonMode === 'split' ? isPlaying : sideBySidePlaying}
+            />
+            </div>
           </div>
 
           <LearningToolbar
@@ -282,7 +327,6 @@ export default function App() {
             <ExplainPanel
               ref={explainPanelRef}
               concept={explainConcept}
-              onShowSigned={triggerSign}
               onSeeVisually={() => visualiserRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })}
               onGotIt={() => setExplainOpen(false)}
             />
@@ -295,7 +339,7 @@ export default function App() {
           />
 
           <div ref={askSectionRef}>
-            <AskPanel messages={messages} onAsk={askQuestion} onShowSigned={triggerSign} />
+            <AskPanel messages={messages} onAsk={askQuestion} />
           </div>
 
           <NewtonVisualiser

@@ -57,6 +57,7 @@ export const VideoLesson = forwardRef<VideoLessonHandle, VideoLessonProps>(funct
         <video
           ref={videoRef}
           src={src}
+          poster="videos/poster.jpg"
           className="w-full aspect-video bg-black"
           onTimeUpdate={(e) => onTimeUpdate(e.currentTarget.currentTime)}
           onDurationChange={(e) => onDurationChange(e.currentTarget.duration)}

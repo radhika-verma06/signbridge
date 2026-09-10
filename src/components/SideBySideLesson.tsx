@@ -24,6 +24,8 @@ interface SideBySideLessonProps {
   src: string;
   lessons?: Lesson[];
   onLessonChange?: (lesson: Lesson) => void;
+  /** Reports whether the lesson video is currently playing (drives the Eva signer). */
+  onPlayingChange?: (playing: boolean) => void;
 }
 
 export interface SideBySideLessonHandle {
@@ -34,7 +36,7 @@ export interface SideBySideLessonHandle {
 }
 
 export const SideBySideLesson = forwardRef<SideBySideLessonHandle, SideBySideLessonProps>(
-  function SideBySideLesson({ src, lessons = [], onLessonChange }, ref) {
+  function SideBySideLesson({ src, lessons = [], onLessonChange, onPlayingChange }, ref) {
     const videoRef = useRef<HTMLVideoElement>(null);
     const [currentIdx, setCurrentIdx] = useState(
       Math.max(0, lessons.findIndex((l) => l.videoSrc === src))
@@ -67,6 +69,9 @@ export const SideBySideLesson = forwardRef<SideBySideLessonHandle, SideBySideLes
             controls
             playsInline
             preload="metadata"
+            onPlay={() => onPlayingChange?.(true)}
+            onPause={() => onPlayingChange?.(false)}
+            onEnded={() => onPlayingChange?.(false)}
           />
         </div>
         <div className="bg-navy-800 px-4 py-3 flex flex-wrap items-center justify-between gap-3">

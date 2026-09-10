@@ -5,13 +5,12 @@ import type { ConceptId } from '../types';
 
 interface ExplainPanelProps {
   concept: ConceptId;
-  onShowSigned: (concept: ConceptId) => void;
   onSeeVisually: () => void;
   onGotIt: () => void;
 }
 
 export const ExplainPanel = forwardRef<HTMLDivElement, ExplainPanelProps>(function ExplainPanel(
-  { concept, onShowSigned, onSeeVisually, onGotIt },
+  { concept, onSeeVisually, onGotIt },
   ref,
 ) {
   const [variantIndex, setVariantIndex] = useState(0);
@@ -89,13 +88,6 @@ export const ExplainPanel = forwardRef<HTMLDivElement, ExplainPanelProps>(functi
         </div>
 
         <div className="mt-6 flex flex-wrap gap-3">
-          <button
-            type="button"
-            onClick={() => onShowSigned(variant.concepts[0] ?? concept)}
-            className="inline-flex items-center gap-2 rounded-md border border-navy-900 bg-navy-900 px-4 py-2.5 text-sm font-semibold text-paper hover:bg-navy-800 transition-colors"
-          >
-            Show signed explanation
-          </button>
           {count > 1 && (
             <button
               type="button"
