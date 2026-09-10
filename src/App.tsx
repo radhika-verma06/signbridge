@@ -112,7 +112,7 @@ export default function App() {
     if (evaFrame?.contentWindow) {
       evaFrame.contentWindow.postMessage(
         { type: 'SIGNBRIDGE_BULK', glosses: [String(concept).toUpperCase()] },
-        'http://127.0.0.1:5070',
+        window.location.origin,
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -130,7 +130,7 @@ export default function App() {
       if (evaFrame?.contentWindow) {
         evaFrame.contentWindow.postMessage(
           { type: 'SIGNBRIDGE_GLOSS', glosses: [String(picked).toUpperCase()] },
-          'http://127.0.0.1:5070',
+          window.location.origin,
         );
       }
     }

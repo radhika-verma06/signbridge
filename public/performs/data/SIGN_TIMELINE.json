@@ -1,0 +1,224 @@
+{
+  "scenes": [
+    {
+      "text": "hello",
+      "duration_s": 1.0,
+      "glosses": [
+        "GOOD"
+      ]
+    },
+    {
+      "text": "this is your body",
+      "duration_s": 4.5,
+      "glosses": [
+        "BOOK",
+        "LICHAAM"
+      ]
+    },
+    {
+      "text": "inside your body",
+      "duration_s": 6.5,
+      "glosses": [
+        "LICHAAM",
+        "KIJKEN"
+      ]
+    },
+    {
+      "text": "is your heart",
+      "duration_s": 6.0,
+      "glosses": [
+        "LICHAAM",
+        "HART"
+      ]
+    },
+    {
+      "text": "it beats and beats",
+      "duration_s": 6.0,
+      "glosses": [
+        "HART",
+        "GOED"
+      ]
+    },
+    {
+      "text": "your brain",
+      "duration_s": 6.5,
+      "glosses": [
+        "HOOFD",
+        "HERSENEN",
+        "DENKEN"
+      ]
+    },
+    {
+      "text": "thinks and learns",
+      "duration_s": 6.5,
+      "glosses": [
+        "HERSENEN",
+        "LEREN",
+        "BOEK"
+      ]
+    },
+    {
+      "text": "blood flows",
+      "duration_s": 6.5,
+      "glosses": [
+        "HART",
+        "BLOED",
+        "GROOT"
+      ]
+    },
+    {
+      "text": "through your body",
+      "duration_s": 6.5,
+      "glosses": [
+        "BLOED",
+        "LICHAAM"
+      ]
+    },
+    {
+      "text": "you grow",
+      "duration_s": 5.5,
+      "glosses": [
+        "GROEIEN",
+        "LEVEN",
+        "JONG"
+      ]
+    },
+    {
+      "text": "that is you",
+      "duration_s": 4.5,
+      "glosses": [
+        "LICHAAM",
+        "GOED"
+      ]
+    }
+  ],
+  "timeline": [
+    {
+      "t_start": 0.0,
+      "t_end": 1.0,
+      "gloss": "GOOD"
+    },
+    {
+      "t_start": 1.0,
+      "t_end": 3.5,
+      "gloss": "BOOK"
+    },
+    {
+      "t_start": 3.5,
+      "t_end": 5.5,
+      "gloss": "LICHAAM"
+    },
+    {
+      "t_start": 5.5,
+      "t_end": 9.0,
+      "gloss": "LICHAAM"
+    },
+    {
+      "t_start": 9.0,
+      "t_end": 12.0,
+      "gloss": "KIJKEN"
+    },
+    {
+      "t_start": 12.0,
+      "t_end": 15.0,
+      "gloss": "LICHAAM"
+    },
+    {
+      "t_start": 15.0,
+      "t_end": 18.0,
+      "gloss": "HART"
+    },
+    {
+      "t_start": 18.0,
+      "t_end": 21.0,
+      "gloss": "HART"
+    },
+    {
+      "t_start": 21.0,
+      "t_end": 24.0,
+      "gloss": "GOED"
+    },
+    {
+      "t_start": 24.0,
+      "t_end": 26.0,
+      "gloss": "HOOFD"
+    },
+    {
+      "t_start": 26.0,
+      "t_end": 28.5,
+      "gloss": "HERSENEN"
+    },
+    {
+      "t_start": 28.5,
+      "t_end": 30.5,
+      "gloss": "DENKEN"
+    },
+    {
+      "t_start": 30.5,
+      "t_end": 32.5,
+      "gloss": "HERSENEN"
+    },
+    {
+      "t_start": 32.5,
+      "t_end": 35.0,
+      "gloss": "LEREN"
+    },
+    {
+      "t_start": 35.0,
+      "t_end": 37.0,
+      "gloss": "BOEK"
+    },
+    {
+      "t_start": 37.0,
+      "t_end": 39.5,
+      "gloss": "HART"
+    },
+    {
+      "t_start": 39.5,
+      "t_end": 42.0,
+      "gloss": "BLOED"
+    },
+    {
+      "t_start": 42.0,
+      "t_end": 43.5,
+      "gloss": "GROOT"
+    },
+    {
+      "t_start": 43.5,
+      "t_end": 47.0,
+      "gloss": "BLOED"
+    },
+    {
+      "t_start": 47.0,
+      "t_end": 50.0,
+      "gloss": "LICHAAM"
+    },
+    {
+      "t_start": 50.0,
+      "t_end": 52.0,
+      "gloss": "GROEIEN"
+    },
+    {
+      "t_start": 52.0,
+      "t_end": 54.0,
+      "gloss": "LEVEN"
+    },
+    {
+      "t_start": 54.0,
+      "t_end": 55.5,
+      "gloss": "JONG"
+    },
+    {
+      "t_start": 55.5,
+      "t_end": 58.0,
+      "gloss": "LICHAAM"
+    },
+    {
+      "t_start": 58.0,
+      "t_end": 60.0,
+      "gloss": "GOED"
+    }
+  ],
+  "total_seconds": 60.0,
+  "lesson": "Inside You: The Human Body (English, 60s)"
+}

@@ -36,7 +36,7 @@ interface EvaSignerPanelProps {
   enabled: boolean;
   /** Whether the master video is currently playing. */
   playing: boolean;
-  /** Source URL for the Eva iframe (the Flask prototype's host.html). */
+  /** Source URL for the Eva iframe (bundled statically with the site). */
   evaSrc?: string;
 }
 
@@ -60,15 +60,15 @@ export function EvaSignerPanel({
   currentLine,
   enabled,
   playing,
-  evaSrc = 'http://127.0.0.1:5070/performs/host.html',
+  evaSrc = 'performs/host.html',
 }: EvaSignerPanelProps) {
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const tickRef = useRef<number | null>(null);
   const lastLineIdRef = useRef<string | null>(null);
 
-  // --- remote availability: the 3D Eva host is local (127.0.0.1:5070). When
-  // this page is served from a public URL, visitors can't reach her, so we
-  // probe once and fall back to the 2D Auslan-derived signer if she's down. ---
+  // --- remote availability: Eva is bundled with the site, so the probe
+  // normally succeeds everywhere. The 2D fallback covers a deploy where her
+  // assets are missing, or an unexpected hosting failure. ---
   const [hostState, setHostState] = useState<'checking' | 'ok' | 'down'>('checking');
   const [fallbackFrames, setFallbackFrames] = useState<PoseFrameSet | null>(null);
 
@@ -118,7 +118,7 @@ export function EvaSignerPanel({
     try {
       target.postMessage(
         { type: 'SIGNBRIDGE_GLOSS', glosses: [gloss] },
-        'http://127.0.0.1:5070',
+        window.location.origin,
       );
     } catch (e) {
       // ignore — iframe momentarily unreachable

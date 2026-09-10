@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Performs Signing Avatar</title>
+  <style>
+    html, body { width:100%; height:100%; margin:0; padding:0; overflow:hidden; background:#181e3a; }
+    #performsHost { position:relative; width:100%; height:100%; overflow:hidden; }
+    #performsHost canvas { display:block; }
+    /* Status and badge text is hidden by request — the parent panel drives
+       any user-facing status; we don't want Eva's own internal status
+       ("signing: J", "loading…", etc.) leaking into the panel. */
+    #status, #badge { display:none !important; }
+  </style>
+</head>
+<body>
+  <div id="status">loading Performs…</div>
+  <div id="performsHost"></div>
+  <div id="badge">GTI Performs signing engine</div>
+
+  <script async src="https://unpkg.com/es-module-shims@0.10.7/dist/es-module-shims.js"></script>
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "./three.module.js",
+        "three/addons/": "./",
+        "three/addons/controls/OrbitControls.js": "./controls/OrbitControls.js",
+        "three/addons/loaders/GLTFLoader.js": "./loaders/GLTFLoader.js",
+        "three/addons/loaders/BVHLoader.js": "./loaders/BVHLoader.js",
+        "three/addons/loaders/FBXLoader.js": "./loaders/FBXLoader.js",
+        "three/addons/exporters/GLTFExporter.js": "./exporters/GLTFExporter.js",
+        "three/addons/lines/Line2.js": "./lines/Line2.js",
+        "three/addons/lines/LineSegments2.js": "./lines/LineSegments2.js",
+        "three/addons/lines/LineSegmentsGeometry.js": "./lines/LineSegmentsGeometry.js",
+        "three/addons/lines/LineGeometry.js": "./lines/LineGeometry.js",
+        "three/addons/lines/LineMaterial.js": "./lines/LineMaterial.js",
+        "three/addons/utils/TextureUtils.js": "./utils/TextureUtils.js",
+        "three/addons/utils/BufferGeometryUtils.js": "./utils/BufferGeometryUtils.js"
+      }
+    }
+  </script>
+
+  <script type="module">
+    import { Performs } from "./performs.nogui.module.min.js";
+
+    const performs = new Performs();
+    const status = document.getElementById("status");
+
+    performs.init({
+      color: "#181e3a",
+      onReady: async () => {
+        const div = document.getElementById("performsHost");
+        // appendCanvasTo removes the canvas from wherever it is (body, by
+        // default in nogui mode) and parents it under #performsHost. Without
+        // this the canvas can be positioned off-screen at y=720 when the
+        // iframe is sized < the canvas height.
+        performs.appendCanvasTo(div);
+        // Force a resize tick so Performs measures the host div correctly.
+        requestAnimationFrame(() => window.dispatchEvent(new Event('resize')));
+        // Belt-and-braces: if for any reason the canvas ends up off-screen,
+        // re-append and reposition it once Eva has fully loaded.
+        status.textContent = "Loading avatar…";
+        performs.loadAvatar(
+          "./avatars/Eva/Eva_Low.glb",
+          "./avatars/Eva/Eva_Low.json",
+          0, "Eva",
+          () => {
+            performs.changeAvatar("Eva");
+            // Re-parent the canvas into #performsHost in case something
+            // moved it during avatar load.
+            performs.appendCanvasTo(div);
+            requestAnimationFrame(() => window.dispatchEvent(new Event('resize')));
+            const c = div.querySelector('canvas');
+            if (c) {
+              c.style.position = 'absolute';
+              c.style.top = '0';
+              c.style.left = '0';
+              c.style.width = '100%';
+              c.style.height = '100%';
+            }
+            status.textContent = "Eva ready — send a gloss to sign";
+          }
+        );
+        // Load the NGT script language dictionary + idle animations
+        try {
+          await performs.loadLanguageDictionaries("NGT");
+          status.textContent = "Eva ready + NGT dictionary loaded";
+        } catch (e) {
+          console.warn("language dict:", e);
+          status.textContent = "Eva ready (dictionary warn: " + e + ")";
+        }
+      }
+    });
+
+    // Play a sequence of sign glosses by name using Performs' ScriptApp.
+    function playSigns(glosses) {
+      if (!performs || !performs.scriptApp) { return null; }
+      const blocks = glosses.map(g => ({ type: "glossName", data: g }));
+      return performs.scriptApp.processMessageRawBlocks(blocks, 0);
+    }
+
+    // Listen for gloss sequences from the parent app
+    window.addEventListener("message", async (ev) => {
+      const d = ev.data || {};
+      if (d && d.type === "SIGNBRIDGE_GLOSS" && Array.isArray(d.glosses)) {
+        status.textContent = "signing: " + d.glosses.join(" · ");
+        try {
+          await playSigns(d.glosses);
+        } catch (e) {
+          console.warn("playSigns:", e);
+        }
+      } else if (d && d.type === "SIGNBRIDGE_BULK" && Array.isArray(d.glosses)) {
+        // queued sequential playback; each one waits for the previous to
+        // finish so the avatar does not lose its place.
+        status.textContent = "signing: " + d.glosses.join(" · ");
+        try {
+          for (const g of d.glosses) {
+            await playSigns([g]);
+          }
+        } catch (e) {
+          console.warn("playSigns:", e);
+        }
+        status.textContent = "done";
+      }
+    });
+
+    // Also expose to window for manual testing
+    window.__playSigns = playSigns;
+  </script>
+</body>
+</html>
